@@ -13,6 +13,7 @@
   "permissions": [
     "downloads",
     "activeTab",    
-    "http://voler.ebook4rent.tw/"
+    "http://*.ebook4rent.tw/",
+    "http://*.ebookservice.tw/"
   ]
 }

@@ -52,7 +52,7 @@ chrome.tabs.query({
     chrome.tabs.sendMessage(tabs[0].id, {
         action: "getDOM"
     }, function(response) {
-        //console.log(response);
+        console.log(response);
         //var doc = document.implementation.createHTMLDocument("example");
         //doc.documentElement.innerHTML = response;
         parser = new DOMParser();
@@ -227,6 +227,57 @@ function downloadMusic() {
 function downloadePub() {
     console.log('download ePub');
     mode = 'epub';
+
+    var bookName, pages;
+    var flag = true;
+    var script;
+    var tmp = bookDocument.querySelectorAll("script");
+    //console.log(tmp);
+    for (var i = 0; i < tmp.length; i++) {
+        if (tmp[i].innerHTML.indexOf('(document).ready(function') > 0) {
+            script = tmp[i].innerHTML;
+            break;
+        }
+    }
+    //console.log(script);
+    var myRe = new RegExp('bookId: \'(.*)\'', 'g');
+    var bookId = myRe.exec(script)[1];
+    myRe = new RegExp('token: \'(.*)\'', 'g');
+    var token = myRe.exec(script)[1];
+    myRe = new RegExp('bookToken: \'(.*)\'', 'g');
+    var bookToken = myRe.exec(script)[1];
+    myRe = new RegExp('format: \'(.*)\'', 'g');
+    var format = myRe.exec(script)[1];
+
+    console.log('bookId:' + bookId);
+    console.log('token:' + token);
+    console.log('bookToken:' + bookToken);
+    console.log('format:' + format);
+    var newToken = token.toString().replace(/%2/, "%5E252");//不知道為什麼會有這種變形
+    //only epub
+    if (format != 'epub' || format == undefined) {
+        flag = false;
+        alert("非電子書格式");
+    }
+
+    if (flag) {
+        var contentUrl = rootUrl + '/epub/fetch/' + bookId + '/' + newToken + '/' + bookToken + '/OEBPS/content.opf';
+        console.log(contentUrl);
+        console.log(httpGet(contentUrl));
+    }
+
+
+    //http://voler.ebookservice.tw/epub/fetch/bookId/token/bookToken/OEBPS/content.opf
+
+    //http://voler.ebookservice.tw/epub/fetch/bookId/token/bookToken/OEBPS/image/2AL950demo_forylib.png
+}
+
+function httpGet(theUrl) {
+    var xmlHttp = null;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", theUrl, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
 }
 
 //download event
@@ -263,8 +314,8 @@ function downloadLinks(link, dir, indexLocal, modeAction) {
     if (modeAction == 'pdf') {
         file = "./" + dir + "/img" + pageNum + ".jpg";
     } else if (modeAction == 'music') {
-         file = "./" + dir + "/MP3/" + pageNum + ".mp3";
-         console.log(link[indexLocal]);
+        file = "./" + dir + "/MP3/" + pageNum + ".mp3";
+        console.log(link[indexLocal]);
     }
     index = index + 1;
     //need reload permissions
