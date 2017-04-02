@@ -40,13 +40,6 @@ function resetButton() {
 }
 
 //query ebook html body
-// chrome.extension.onRequest.addListener(function(response) {
-//     bookDocument = response.doc;
-//     console.log(bookDocument);
-//     console.log(bookDocument.toString());
-// });
-
-//query ebook html body
 //http://stackoverflow.com/questions/4532236/how-to-access-the-webpage-dom-rather-than-the-extension-page-dom
 //http://stackoverflow.com/questions/19758028/chrome-extension-get-dom-content
 chrome.tabs.query({
@@ -95,10 +88,6 @@ function downloadPDF() {
         flag = false;
         alert("找不到書碼");
     }
-
-    // var arrayLis = bookDocument.querySelectorAll("li img"); //page
-    // console.log(arrayLis);
-    // console.log(arrayLis[0].attributes['src'].nodeValue);
 
     //http://voler.ebook4rent.tw/book/img?p=1&f=jpg&r=150&preferWidth=950&preferHeight=1920&bookId=xxxx&token=xxx&bookToken=xxx
     var arrayLis = bookDocument.querySelectorAll("li img"); //page
@@ -266,33 +255,6 @@ chrome.downloads.onChanged.addListener(function(delta) {
     }
 });
 
-// chrome.extension.onRequest.addListener(function(response) {
-//     renderStatus('下載中，請勿離開此頁面');
-//     dir = response.dir;
-//     dir = sanitize(dir, '');
-//     //dir = dir.replace(/\\/, "-");
-//     links = response.links;
-//     index = response.index;
-
-//     if (index > 0) {
-//         if (index < links.length) {
-//             var r = confirm("是否接續下載?(" + (index + 1) + "/" + links.length + ")");
-//             if (r != true) {
-//                 index = 0;
-//             }
-//         } else {
-//             var r = confirm("重新下載?");
-//             if (r != true) {
-//                 window.close();
-//                 return;
-//             }
-//             index = 0;
-//         }
-//     }
-
-//     downloadLinks(links, dir, index);
-// });
-
 // Download all visible checked links.
 function downloadLinks(link, dir, indexLocal, modeAction) {
     var pageNum = padLeft((indexLocal + 1), 3);
@@ -319,15 +281,6 @@ function downloadLinks(link, dir, indexLocal, modeAction) {
             } else {
                 console.log(downloadId + " Ok");
                 id = downloadId;
-                //send to content script
-                // chrome.tabs.query({
-                //     active: true,
-                //     currentWindow: true
-                // }, function(tabs) {
-                //     chrome.tabs.sendMessage(tabs[0].id, {
-                //         index: index
-                //     });
-                // });
             }
         });
     //window.close();
