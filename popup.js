@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadePub();
         resetButton();
     });
+    document.getElementById('close-button').addEventListener('click', function() {
+        window.close();
+    });
 });
 
 //rest button disabled
@@ -234,7 +237,7 @@ function downloadePub() {
     var tmp = bookDocument.querySelectorAll("script");
     //console.log(tmp);
     for (var i = 0; i < tmp.length; i++) {
-        if (tmp[i].innerHTML.indexOf('(document).ready(function') > 0) {
+        if (tmp[i].innerHTML.indexOf('(document).ready(function') >= 0) {
             script = tmp[i].innerHTML;
             break;
         }
@@ -253,7 +256,7 @@ function downloadePub() {
     console.log('token:' + token);
     console.log('bookToken:' + bookToken);
     console.log('format:' + format);
-    var newToken = token.toString().replace(/%2/, "%5E252");//不知道為什麼會有這種變形
+    var newToken = token.toString().replace(/%2/g, "%5E252"); //不知道為什麼會有這種變形,可能避免%2被轉譯錯誤
     //only epub
     if (format != 'epub' || format == undefined) {
         flag = false;
@@ -261,11 +264,35 @@ function downloadePub() {
     }
 
     if (flag) {
-        var contentUrl = rootUrl + '/epub/fetch/' + bookId + '/' + newToken + '/' + bookToken + '/OEBPS/content.opf';
-        console.log(contentUrl);
-        console.log(httpGet(contentUrl));
-    }
+        links = [];
+        links.push(rootUrl + '/epub/fetch/' + bookId + '/' + newToken + '/' + bookToken + '/META-INF/container.xml'); //add container to queue
+        var contentUrl = rootUrl + '/epub/fetch/' + bookId + '/' + newToken + '/' + bookToken + '/OEBPS/';
+        console.log(contentUrl + 'content.opf');
+        links.push(contentUrl + 'content.opf'); //add opf to queue
+        var content = httpGet(contentUrl + 'content.opf');
+        console.log(content);
+        parser = new DOMParser();
+        contentDoc = parser.parseFromString(content, 'text/xml');
 
+        myRe = new RegExp('<dc:title>(.*)</dc:title>', 'g');
+        var bookName = myRe.exec(content)[1];
+
+        // var title = contentDoc.querySelectorAll('metadata');
+        // bookName = title[0].childNodes[7].innerHTML;
+        console.log(bookName);
+        var items = contentDoc.querySelectorAll('item');
+        //console.log(items);
+        for (var i = 0; i < items.length; i++) {
+            if (true || items[i].attributes['href'].value.indexOf('image') >= 0) {
+                links.push(contentUrl + items[i].attributes['href'].value);
+            }
+        }
+        //console.log(links);
+        downloadErrorFlag = false; //download error stop
+        dir = sanitize(bookName, '');
+        index = 0;
+        downloadLinks(links, dir, index, mode);
+    }
 
     //http://voler.ebookservice.tw/epub/fetch/bookId/token/bookToken/OEBPS/content.opf
 
@@ -316,6 +343,16 @@ function downloadLinks(link, dir, indexLocal, modeAction) {
     } else if (modeAction == 'music') {
         file = "./" + dir + "/MP3/" + pageNum + ".mp3";
         console.log(link[indexLocal]);
+    } else if (modeAction == 'epub') {
+        var filename
+        if (link[indexLocal].indexOf('/OEBPS/') >= 0) {
+            filename = link[indexLocal].substring(link[indexLocal].indexOf('/OEBPS/') + 1);
+        } else if (link[indexLocal].indexOf('/META-INF/') >= 0) {
+            filename = link[indexLocal].substring(link[indexLocal].indexOf('/META-INF/') + 1);
+        }
+        //var filename = link[indexLocal].split('/').pop()
+        file = "./" + dir + "/" + filename;
+        console.log(filename + ' ' + link[indexLocal]);
     }
     index = index + 1;
     //need reload permissions
