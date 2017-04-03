@@ -291,7 +291,7 @@ function downloadePub() {
         downloadErrorFlag = false; //download error stop
         dir = sanitize(bookName, '');
         index = 0;
-        ∂downloadLinks(links, dir, index, mode);
+        downloadLinks(links, dir, index, mode);
     }
 
     //http://voler.ebookservice.tw/epub/fetch/bookId/token/bookToken/OEBPS/content.opf
