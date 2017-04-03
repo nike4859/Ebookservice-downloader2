@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "EBookService book downloader2",
-  "description": "請打開閱讀書本的頁面後，點選此按鈕開始下載書本，可選擇電子書、音檔、一般書。下載時，請勿操作Chrome。",
+  "description": "請打開閱讀書本的頁面後，點選此按鈕開始下載書本，可選擇ePub書、音檔、一般書。下載時，請勿操作Chrome。",
   "version": "1.0",
 
   "browser_action": {
