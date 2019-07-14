@@ -16,18 +16,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //register listener
+    //下載一般書本
     document.getElementById('pdf-button').addEventListener('click', function() {
         downloadPDF();
         resetButton();
     });
+    //下載音樂
     document.getElementById('music-button').addEventListener('click', function() {
         downloadMusic();
         resetButton();
     });
+    //下載ePub
     document.getElementById('epub-button').addEventListener('click', function() {
         downloadePub();
         resetButton();
     });
+    //關閉
     document.getElementById('close-button').addEventListener('click', function() {
         window.close();
     });
@@ -72,6 +76,7 @@ function downloadPDF() {
     var src, src1, src2;
     var flag = true;
 
+    //取得書本名稱
     var arrayName = bookDocument.querySelectorAll("div.top_bookname"); //page combobox
     //console.log(arrayName);
     if (arrayName.length != 0) {
@@ -82,7 +87,8 @@ function downloadPDF() {
         alert("找不到書本");
     }
 
-    var arrayOpts = bookDocument.querySelectorAll("option"); //page combobox
+    //取得書本頁數，根據閱讀器的下拉選單數量
+    var arrayOpts = bookDocument.querySelectorAll(".bottom_page1_text option"); //page combobox
     //console.log(arrayOpts.length);
     if (arrayOpts.length != 0) {
         pages = (arrayOpts.length - 1) * 2; //calculate  amount of pages
@@ -95,6 +101,7 @@ function downloadPDF() {
     //http://voler.ebook4rent.tw/book/img?p=1&f=jpg&r=150&preferWidth=950&preferHeight=1920&bookId=xxxx&token=xxx&bookToken=xxx
     var arrayLis = bookDocument.querySelectorAll("li img"); //page
     //console.log(arrayLis);
+    //取得下載網址
     if (arrayLis.length != 0) {
         coverFlag = false;
         for (var i = 0; i < arrayLis.length; i++) {
@@ -115,6 +122,7 @@ function downloadPDF() {
         alert("找不到內容");
     }
 
+    //切割下載網址，取得頁碼前後的網址
     //chack page of url
     if (flag) {
         src1 = src.substring(0, 38); //head
