@@ -319,7 +319,7 @@ function httpGet(theUrl) {
 chrome.downloads.onChanged.addListener(function(delta) {
     //moniter download
     //console.log("ebookservice listener");
-    //console.log(delta.state);
+    console.log(delta);
     if (!delta.state) {
         return;
     }
@@ -347,9 +347,9 @@ function downloadLinks(link, dir, indexLocal, modeAction) {
     renderStatus('下載中，請勿離開此頁面(' + pageNum + '/' + link.length + ')');
     var file
     if (modeAction == 'pdf') {
-        file = "./" + dir + "/img" + pageNum + ".jpg";
+        file = "" + dir + "/img" + pageNum + ".jpg";
     } else if (modeAction == 'music') {
-        file = "./" + dir + "/MP3/" + pageNum + ".mp3";
+        file = "" + dir + "/MP3/" + pageNum + ".mp3";
         console.log(link[indexLocal]);
     } else if (modeAction == 'epub') {
         var filename
@@ -359,7 +359,7 @@ function downloadLinks(link, dir, indexLocal, modeAction) {
             filename = link[indexLocal].substring(link[indexLocal].indexOf('/META-INF/') + 1);
         }
         //var filename = link[indexLocal].split('/').pop()
-        file = "./" + dir + "/" + filename;
+        file = "" + dir + "/" + filename;
         console.log(filename + ' ' + link[indexLocal]);
     }
     index = index + 1;
