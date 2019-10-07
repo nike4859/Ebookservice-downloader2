@@ -364,7 +364,7 @@ function downloadLinks(link, dir, indexLocal, modeAction) {
         file = "" + dir + "/" + filename;
         console.log(filename + ' ' + link[indexLocal]);
     }
-    index = index + 1;
+    index = indexLocal + 1;
     //need reload permissions
     chrome.downloads.download({
             url: link[indexLocal],
