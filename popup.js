@@ -99,6 +99,7 @@ function downloadPDF() {
     }
 
     //http://voler.ebook4rent.tw/book/img?p=1&f=jpg&r=150&preferWidth=950&preferHeight=1920&bookId=xxxx&token=xxx&bookToken=xxx
+    //http://voler.ebookservice.tw/book/img?p=1&f=jpg&r=150&preferWidth=888&preferHeight=1365&bookId=f7b84fee-af03-47f3-9dba-04b7005ae60e&token=pdqtPyXGMO1QomhdmEXRwh0Gp6Ic4tkA6PSda0N5L07Jg7GpL0xwVh40e9TtRrhG&bookToken=dc093103595f9e323be638a978ea3b69
     var arrayLis = bookDocument.querySelectorAll("li img"); //page
     //console.log(arrayLis);
     //取得下載網址
@@ -125,8 +126,9 @@ function downloadPDF() {
     //切割下載網址，取得頁碼前後的網址
     //chack page of url
     if (flag) {
-        src1 = src.substring(0, 38); //head
-        src2 = src.substring(39); //tail
+        var index = src.indexOf("p=1");
+        src1 = src.substring(0, index+2); //head
+        src2 = src.substring(index+3); //tail
         if (src1.charAt(src1.length - 1) != "=" || 　src2.charAt(0) != "&") {
             flag = false;
             console.log("src1:" + src1);
