@@ -190,6 +190,7 @@ function downloadMusic() {
     //0-39 40-
     //http://voler.ebook4rent.tw/book/audio?p=5&code=3&bookId=xxx&token=xxx&bookToken=xxx
     //var audioTmp = bookDocument.querySelectorAll("div"); //mp3
+    //http://voler.ebookservice.tw/book/audio?p=24&code=3&bookId=820f1dc4-2bfe-4b18-9aeb-89965a43e30f&token=pcxQk4kxuIMO1rHzu0KxqDE4xYycRD1EPhF3TGktQXn55rny0R%2Fjoii6rpqxcGFF&bookToken=6ca9c0b59aee537e52d9781c3ccb237f
     var audioTmp = bookDocument.querySelectorAll("div audio"); //mp3
     //console.log(audioTmp);
     if (audioTmp.length != 0) {
@@ -205,8 +206,8 @@ function downloadMusic() {
         //for audio
         var audioLinks = [];
         if (audioSrc != undefined && audioSrc.length > 41) {
-            audioSrc1 = audioSrc.substring(0, 40); //head
-            audioSrc2 = audioSrc.substring(41); //tail
+            audioSrc1 = audioSrc.substring(0, audioSrc.indexOf("?p=")+3); //head
+            audioSrc2 = audioSrc.substring(audioSrc.indexOf("&code=")); //tail
             if (audioSrc1.charAt(audioSrc1.length - 1) != "=" || audioSrc2.charAt(0) != "&") {
                 flag = false;
                 console.log("audio src1:" + audioSrc1);
