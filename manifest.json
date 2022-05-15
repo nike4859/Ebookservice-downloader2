@@ -10,10 +10,20 @@
     "default_popup": "popup.html",
     "default_title": "雲端書庫下載"
   },
+
+  "content_scripts": [
+    {
+      "matches": ["https://*.ebookservice.tw/*", "https://*.ebook4rent.tw/*"],
+      "js": ["content_script.js"]
+    }
+  ],
+
   "permissions": [
     "downloads",
-    "activeTab",    
+    "activeTab",
     "http://*.ebook4rent.tw/",
-    "http://*.ebookservice.tw/"
+    "http://*.ebookservice.tw/",
+    "https://*.ebook4rent.tw/",
+    "https://*.ebookservice.tw/"
   ]
 }
