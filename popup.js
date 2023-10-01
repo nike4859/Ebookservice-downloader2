@@ -91,7 +91,7 @@ function downloadPDF() {
     var arrayOpts = bookDocument.querySelectorAll(".bottom_page1_text option"); //page combobox
     //console.log(arrayOpts.length);
     if (arrayOpts.length != 0) {
-        pages = (arrayOpts.length - 1) * 2; //calculate  amount of pages
+        pages = (arrayOpts.length - 1) * 2 + 1; //calculate  amount of pages, add one page for last page, some books have one more page than the last page
         console.log("Page length:" + pages);
     } else {
         flag = false;
