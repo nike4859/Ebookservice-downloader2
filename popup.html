@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <!--
  This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
+ "action" field in manifest.json contains the "default_popup" key with
  value "popup.html".
  -->
 <html>
@@ -9,22 +9,37 @@
 <head>
     <title>雲端書庫下載器</title>
     <style>
-    body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif, 微軟正黑體;
-        font-size: 100%;
-        min-width: 300px;
-    }
-    div {
-        display: inline
-    }
-    #status {
-        /* avoid an excessively wide status text */
-        
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-    }
+        body {
+            font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif, 微軟正黑體;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+            margin: 0; /* remove body margin */
+            min-width: 300px; /* menu width*/
+            font-size: 100%;
+        }
+        button {
+            padding: 7px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s;
+        } 
+        button:hover {
+            background-color: #0056b3;
+        }
+        .button-container {
+            margin: 5px;
+        }
+        .text-container {
+            display: flex;
+            text-align: center;
+            font-size: 18px;
+        }
     </style>
 
     <!--
@@ -37,14 +52,16 @@
 </head>
 
 <body>
-    <div style="display: inline">
-    <button type="button" id="pdf-button">一般書</button>
-    <button type="button" id="music-button">音檔</button>
-    <button type="button" id="epub-button">ePub書</button>
-    <button type="button" id="close-button">關閉</button>
-    </div><br />
-    <div id="status"></div>
-    <img id="loading-icon" src="loading.gif" style="visibility:hidden"/>
+    <div style="display: inline" class="button-container">
+        <button type="button" id="pdf-button">一般書</button>
+        <button type="button" id="music-button">音檔</button>
+        <button type="button" id="epub-button">ePub書</button>
+        <button type="button" id="close-button">關閉</button>
+    </div>
+    <div class="text-container">
+        <div id="status"></div>
+        <img id="loading-icon" src="images/loading.gif" style="visibility:hidden" />
+    </div>
 </body>
 
 </html>

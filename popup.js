@@ -10,10 +10,10 @@ var downloadErrorFlag = true; //download error stop
 var mode; //pdf,music,epub
 
 document.addEventListener('DOMContentLoaded', function() {
-    //execute content script
-    chrome.tabs.executeScript(null, {
-        file: "content_script.js"
-    });
+    //execute content script, make sure got DOM before click button
+    // chrome.tabs.executeScript(null, {
+    //     file: "content_script.js"
+    // });
 
     //register listener
     //下載一般書本
